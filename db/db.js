@@ -1,8 +1,7 @@
 // Importamos el modulo Mongoose para conectarnos a la base de datos de MONGODB.
 const mongoose = require("mongoose");
 // Establecemos nuestra url de la base de datos == DB
-const mongoDBURL =
-  "SU URL";
+const mongoDBURL="mongodb+srv://nancyvsqz:liam12345678@cluster0.iilnpar.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0.mongobd.net/proyectofinal/";
 
 // Funcion para conectarnos a la DB
 function connectDB() {
