@@ -1,10 +1,10 @@
-// Importamos el modelo de Mongo
-const User = require("../models/user");
-// Función para obtener todos los usuarios
+
+const User = require("../models/User");
+
 function getAllUsers(req, res) {
   // Utilizamos el método find() de Mongoose para encontrar todos los usuarios
   User.find()
-    .then(users => res.json(users)) // Enviamos la lista de usuarios en formato JSON como respuesta
+    .then(users => res.status(200).json(users)) // Enviamos la lista de usuarios en formato JSON como respuesta
     .catch(err => {
       console.error(err);
       res.status(500).send("Error al obtener usuarios"); // En caso de error, enviamos un mensaje de error al cliente
@@ -13,10 +13,11 @@ function getAllUsers(req, res) {
 
 function createUser(req, res) {
     // Extraemos toda la informacion del cuerpo de la solicitud.
+    
     const { nombre, edad, email, contraseña } = req.body;
     // Creamos un nuevo usuario con el metodo create() de mongoose.
     User.create({ nombre, edad, email, contraseña })
-      .then((newUser) => res.json(newUser)) // Enviamos el nuevo usuario como en fomrato Json.;
+      .then((newUser) => res.status(201).json(newUser)) // Enviamos el nuevo usuario como en fomrato Json.;
       .catch((err) => {
         console.error(err);
         res.status(500).send("Error al crear Usuario"); // En caso de tener error que envie un mensaje al cliente.
@@ -42,6 +43,7 @@ function createUser(req, res) {
       // Obtenemos el id del usuario a actualizar.
     const userId = req.params.id;
       // Utilizamos el metodo findByIdAndDelete() de Mongoose para buscar y eliminar un usuario por ID.
+      
       User.findByIdAndDelete(userId)
       .then(()=> res.status(200).send("Usuario eliminado correctamente")) // Envaimos una confirmacoin al cliente de que el usuario se elimino correctamente
       .catch((err) => {
