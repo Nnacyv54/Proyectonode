@@ -1,32 +1,48 @@
 const authService = require("../services/authservice");
-const User = require("../models/User");
-// Controlador para manejar la Autenticacion de Usuarios
+const AuthToken= require("../models/Authtoken");
+const bcryptService= require("../services/bcryptService");
+const User = require("../models/user");
 
 
-function login(req, res) {
-  const { email, contraseña } = req.body;
-  
-  User.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({ message: "Credenciales invalidas" });
+function login(req,res){
+  const {email,contraseña} = req.body;
+
+  User.findOne({email: email})
+  .then((user)=>{
+    if (!user){
+      return res.status(401).json({message: "Credenciales Invalidas"})
+    }
+
+
+    bcryptService.comparePassword(contraseña, user.contraseña)
+    then((match)=>{
+      if(!match){
+        return res.status(401).json({message:"Credenciales Invalidas"})
       }
 
-      const match = contraseña === user.contraseña;
 
-      if (!match) {
-        return res.status(401).json({ message: "Credenciales invalidas" });
-      }
 
-      const token = authService.generateToken(user);
-      res.json({ token });
-    })
-    .catch((err) => {
+      const token = authService.generateToken(user)
+
+
+      AuthToken.create({userId: USER_Id, token})
+      .then(()=>{
+        res.json({token})
+      })
+      .catch((error)=>{
+        console.error(error);
+        res.status(500).json({ message: "Error al iniciar sesion"})
+      })
+    }) .catch((error)=>{
       console.error(error);
-      res.status(500).json({ message: "Error al iniciar sesion" });
-    });
+      res.status(500).json({ message: "Error al iniciar sesion"})
+    })
+  }) .catch((error)=>{
+    console.error(error);
+    res.status(500).json({ message: "Error al iniciar sesion"})
+  })
 }
-// Controlador para cerrar la sesion
+
 
 
 function logout() {

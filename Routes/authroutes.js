@@ -8,7 +8,12 @@ const router = express.Router();
 const authcontroller = require("../controllers/authcontrollers");
 
 
+const verifyToken= requiere("../middleware/verifytoken");
+
+
 router.post("/login", authcontroller.login);
-router.get("logout", authcontroller.logout);
+
+
+router.post("/logout", verifyToken, authcontroller.logout);
 
 module.exports = router;

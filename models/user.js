@@ -1,6 +1,6 @@
-// Importamos Mongoose para definir y tener el esquema de usuario y el modelo.
+
 const mongoose= require("mongoose")
-// Definimos el esquema de usuario utilizando el constructor de Mongoose llamado Schema.
+
 const userSchema = new mongoose.Schema({
     nombre : {
         type: String,
@@ -13,15 +13,20 @@ const userSchema = new mongoose.Schema({
     email:{
         type: String,
         required:true,
-        unique:true //El correo electronico tiene que ser Unico
+        unique:true 
     },
     contraseña:{
         type:String,
         required:true 
     }
 })
-// Crear el modelo user utilizando el esquema definido anteriormente
+
+
+/* userSchema.pre("save")
+    bcryptService.hachPassword
+ */
+
 const User= mongoose.model("User", userSchema)
-// Exportamos el modelo User para usarlo en cualquier parte.
+
 module.exports= User
 
