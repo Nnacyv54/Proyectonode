@@ -1,7 +1,7 @@
-const user = require("../models/user");
+const User = require("../models/user");
 
 
-function getCurrentuser(req, res){
+function getCurrentUser(req, res){
     new Promise((resolve,reject) => {
         
         const userId = req.userId;

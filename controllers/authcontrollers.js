@@ -15,7 +15,7 @@ function login(req,res){
 
 
     bcryptService.comparePassword(contraseña, user.contraseña)
-    then((match)=>{
+    .then((match)=>{
       if(!match){
         return res.status(401).json({message:"Credenciales Invalidas"})
       }
@@ -25,7 +25,7 @@ function login(req,res){
       const token = authService.generateToken(user)
 
 
-      AuthToken.create({userId: USER_Id, token})
+      AuthToken.create({userId: user._id, token})
       .then(()=>{
         res.json({token})
       })
@@ -45,13 +45,13 @@ function login(req,res){
 
 
 
-function logout() {
-  const token = req.header.autorization.token
+function logout(req,res) {
+  const token = req.headers.authorization.split(" ")[1]
 
 
-  AuthToken.findByIdAndDelete({token})
+  AuthToken.findOneAndDelete({token})
   .then(()=>{
-    res.status(200).json({ message: "Sesion cerrada exitosamente"})
+    res.status(200).json({ message: "Sesion cerrada exitosamente", token:{token}})
   })
   .catch((error)=>{
     console.error(error)

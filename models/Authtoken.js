@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 
-const authTokenSchemary = new mongoose.Schema({
+const authTokenSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
@@ -13,12 +13,12 @@ const authTokenSchemary = new mongoose.Schema({
     },
     createdAt: {
         type:Date,
-        deafult:Date,now,
+        deafult:Date.now,
         expires:"1h",
 
     },
 });
 
-const AuthToken = mongoose.model("AuthToken, authTokenSchema")
+const AuthToken = mongoose.model("AuthToken" , authTokenSchema)
 
 module.exports=AuthToken
