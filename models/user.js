@@ -1,5 +1,6 @@
 
 const mongoose= require("mongoose")
+const bcryptService= require("../services/bcryptService");
 
 const userSchema = new mongoose.Schema({
     nombre : {
@@ -22,9 +23,22 @@ const userSchema = new mongoose.Schema({
 })
 
 
-/* userSchema.pre("save")
-    bcryptService.hachPassword
- */
+userSchema.pre("save", function(next){
+    if(!this.isModified("contraseña")){
+      return next();
+    }
+    bcryptService
+      .hashPassword(this.contraseña)
+      .then((hashedPassword) => {
+        this.contraseña = hashedPassword;
+        next()
+      })
+      .catch((error) => {
+        console.error(error);
+        next(error);
+      });
+})
+    
 
 const User= mongoose.model("User", userSchema)
 

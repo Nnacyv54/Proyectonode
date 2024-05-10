@@ -12,8 +12,8 @@ function getAllUsers(req, res) {
 }
 
 function createUser(req, res) {
-    // Extraemos toda la informacion del cuerpo de la solicitud.
-    // agregar encriptacion
+  
+    
     const { nombre, edad, email, contraseña } = req.body;
     // Creamos un nuevo usuario con el metodo create() de mongoose.
     User.create({ nombre, edad, email, contraseña })

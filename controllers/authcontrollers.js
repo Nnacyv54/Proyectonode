@@ -46,7 +46,17 @@ function login(req,res){
 
 
 function logout() {
-  res.status(200).json({ message: "Sesion cerrada exitosamente" });
+  const token = req.header.autorization.token
+
+
+  AuthToken.findByIdAndDelete({token})
+  .then(()=>{
+    res.status(200).json({ message: "Sesion cerrada exitosamente"})
+  })
+  .catch((error)=>{
+    console.error(error)
+    res.status(500).json({ message: "Error al iniciar sesion"})
+  })
 }
 module.exports={
     login,
